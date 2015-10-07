@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <HealthKit/HealthKit.h>
 
 @interface AppDelegate ()
 
@@ -16,8 +17,23 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    NSLog(@"test");
+    HKHealthStore* healstore=[HKHealthStore new];
+    NSSet* readobject = [NSSet setWithObject:[HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate]];
+    
+    [healstore requestAuthorizationToShareTypes:nil readTypes:readobject completion:^(BOOL success, NSError *error) {
+        
+        if(success == YES)
+        {
+            NSLog(@"Perm OK");
+        }
+        else
+        {
+            NSLog(@"%@",error);
+        }
+    }];
     return YES;
+
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
