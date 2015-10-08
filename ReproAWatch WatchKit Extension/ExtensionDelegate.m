@@ -7,11 +7,35 @@
 //
 
 #import "ExtensionDelegate.h"
+#import <HealthKit/HealthKit.h>
 
 @implementation ExtensionDelegate
 
 - (void)applicationDidFinishLaunching {
     // Perform any final initialization of your application.
+    NSLog(@"test");
+    HKHealthStore* healstore=[HKHealthStore new];
+    NSSet* readobject = [NSSet setWithObjects:[HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate],[HKObjectType characteristicTypeForIdentifier:HKCharacteristicTypeIdentifierBiologicalSex],nil];
+    NSSet* shareobject = [NSSet setWithObjects:[HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyMass], nil];
+    
+    [healstore requestAuthorizationToShareTypes:shareobject readTypes:readobject completion:^(BOOL success, NSError *error) {
+        
+        if(success == YES)
+        {
+            NSLog(@"OK");
+            
+            HKQuantityType* heartratetype = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate];
+            /*HKWorkout* workout= [[HKWorkoutSession alloc]initWithActivityType:HKWorkoutActivityTypeCrossTraining locationType:HKWorkoutSessionLocationTypeUnknown];
+            NSPredicate* prediction = [HKQuery predicateForSamplesWithStartDate:[NSDate date] endDate:nil options:HKQueryOptionNone];
+            HKAnchoredObjectQuery* query = [[HKAnchoredObjectQuery alloc]initWithType:heartratetype predicate:prediction anchor:nil limit:5 resultsHandler:^(HKAnchoredObjectQuery* query, nil,nil,nil,NSError* error) {
+                
+             }];*/
+            
+        }
+        else{
+            NSLog(@"%@",error);
+        }
+    }];
 }
 
 - (void)applicationDidBecomeActive {

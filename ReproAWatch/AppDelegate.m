@@ -19,13 +19,50 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     NSLog(@"test");
     HKHealthStore* healstore=[HKHealthStore new];
-    NSSet* readobject = [NSSet setWithObject:[HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate]];
+    NSSet* readobject = [NSSet setWithObjects:[HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate],[HKObjectType characteristicTypeForIdentifier:HKCharacteristicTypeIdentifierBiologicalSex],nil];
+    NSSet* shareobject = [NSSet setWithObjects:[HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyMass], nil];
     
-    [healstore requestAuthorizationToShareTypes:nil readTypes:readobject completion:^(BOOL success, NSError *error) {
+    [healstore requestAuthorizationToShareTypes:shareobject readTypes:readobject completion:^(BOOL success, NSError *error) {
         
         if(success == YES)
         {
             NSLog(@"Perm OK");
+            NSError *error;
+            HKBiologicalSexObject *bioSex = [healstore biologicalSexWithError:&error];
+            switch (bioSex.biologicalSex) {
+                case HKBiologicalSexNotSet:
+                    // undefined
+                    NSLog(@"Not set");
+                    break;
+                case HKBiologicalSexFemale:
+                    NSLog(@"Female");
+                    // ...
+                    break;
+                case HKBiologicalSexMale:
+                    NSLog(@"Male");
+                    // ...
+                    break;
+                }
+            
+            // Some weight in gram
+            double weightInGram = 83400.f;
+
+            // Create an instance of HKQuantityType and
+            // HKQuantity to specify the data type and value
+            // you want to update
+            NSDate *now = [NSDate date];
+            HKQuantityType *hkQuantityType = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyMass];
+            HKQuantity *hkQuantity = [HKQuantity quantityWithUnit:[HKUnit gramUnit] doubleValue:weightInGram];
+
+            // Create the concrete sample
+            HKQuantitySample *weightSample = [HKQuantitySample quantitySampleWithType:hkQuantityType
+                                                                 quantity:hkQuantity
+                                                                startDate:now
+                                                                  endDate:now];
+            // Update the weight in the health store
+            [healstore saveObject:weightSample withCompletion:^(BOOL success, NSError *error) {
+                // ..
+            }];
         }
         else
         {

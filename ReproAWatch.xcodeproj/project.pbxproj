@@ -22,6 +22,7 @@
 		A4BA51E71BC5BDCC00D2FDF4 /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4BA51E61BC5BDCC00D2FDF4 /* NotificationController.m */; };
 		A4BA51E91BC5BDCC00D2FDF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4BA51E81BC5BDCC00D2FDF4 /* Assets.xcassets */; };
 		A4BA51F91BC5BDD900D2FDF4 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4BA51F81BC5BDD900D2FDF4 /* HealthKit.framework */; };
+		A4BA51FD1BC5D10200D2FDF4 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4BA51FC1BC5D10200D2FDF4 /* HealthKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,8 @@
 		A4BA51EA1BC5BDCC00D2FDF4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A4BA51F81BC5BDD900D2FDF4 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		A4BA51FA1BC5BDD900D2FDF4 /* ReproAWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ReproAWatch.entitlements; sourceTree = "<group>"; };
+		A4BA51FB1BC5D10100D2FDF4 /* ReproAWatch WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "ReproAWatch WatchKit Extension.entitlements"; sourceTree = "<group>"; };
+		A4BA51FC1BC5D10200D2FDF4 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS2.0.sdk/System/Library/Frameworks/HealthKit.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +111,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4BA51FD1BC5D10200D2FDF4 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,6 +121,7 @@
 		A4BA51A91BC5BDCB00D2FDF4 = {
 			isa = PBXGroup;
 			children = (
+				A4BA51FC1BC5D10200D2FDF4 /* HealthKit.framework */,
 				A4BA51F81BC5BDD900D2FDF4 /* HealthKit.framework */,
 				A4BA51B41BC5BDCB00D2FDF4 /* ReproAWatch */,
 				A4BA51CD1BC5BDCB00D2FDF4 /* ReproAWatch WatchKit App */,
@@ -173,6 +178,7 @@
 		A4BA51DC1BC5BDCC00D2FDF4 /* ReproAWatch WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
+				A4BA51FB1BC5D10100D2FDF4 /* ReproAWatch WatchKit Extension.entitlements */,
 				A4BA51DF1BC5BDCC00D2FDF4 /* InterfaceController.h */,
 				A4BA51E01BC5BDCC00D2FDF4 /* InterfaceController.m */,
 				A4BA51E21BC5BDCC00D2FDF4 /* ExtensionDelegate.h */,
@@ -275,6 +281,11 @@
 					A4BA51D71BC5BDCC00D2FDF4 = {
 						CreatedOnToolsVersion = 7.0.1;
 						DevelopmentTeam = 2HS9C47T73;
+						SystemCapabilities = {
+							com.apple.HealthKit = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -475,10 +486,14 @@
 		A4BA51EE1BC5BDCC00D2FDF4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "ReproAWatch WatchKit Extension/ReproAWatch WatchKit Extension.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "ReproAWatch WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ronan.ReproAWatch.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
@@ -489,10 +504,14 @@
 		A4BA51EF1BC5BDCC00D2FDF4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "ReproAWatch WatchKit Extension/ReproAWatch WatchKit Extension.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "ReproAWatch WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ronan.ReproAWatch.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = 4;
