@@ -25,12 +25,14 @@
             NSLog(@"OK");
             
             HKQuantityType* heartratetype = [HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate];
-            /*HKWorkout* workout= [[HKWorkoutSession alloc]initWithActivityType:HKWorkoutActivityTypeCrossTraining locationType:HKWorkoutSessionLocationTypeUnknown];
-            NSPredicate* prediction = [HKQuery predicateForSamplesWithStartDate:[NSDate date] endDate:nil options:HKQueryOptionNone];
-            HKAnchoredObjectQuery* query = [[HKAnchoredObjectQuery alloc]initWithType:heartratetype predicate:prediction anchor:nil limit:5 resultsHandler:^(HKAnchoredObjectQuery* query, nil,nil,nil,NSError* error) {
-                
-             }];*/
             
+            HKWorkout* workout= [[HKWorkoutSession alloc]initWithActivityType:HKWorkoutActivityTypeCrossTraining locationType:HKWorkoutSessionLocationTypeUnknown];
+            NSPredicate* prediction = [HKQuery predicateForSamplesWithStartDate:[NSDate date] endDate:nil options:HKQueryOptionNone];
+            HKAnchoredObjectQuery* query = [[HKAnchoredObjectQuery alloc]initWithType:heartratetype predicate:prediction anchor:0 limit:5 resultsHandler:^(HKAnchoredObjectQuery *query, NSArray<HKSample*> * sampleObjects, NSArray<HKDeletedObject*>* deletedObjects, HKQueryAnchor* newAnchor, NSError* error) {
+                NSLog(@"Done");
+                
+            }];
+
         }
         else{
             NSLog(@"%@",error);

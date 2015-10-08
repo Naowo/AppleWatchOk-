@@ -20,7 +20,7 @@
     NSLog(@"test");
     HKHealthStore* healstore=[HKHealthStore new];
     NSSet* readobject = [NSSet setWithObjects:[HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate],[HKObjectType characteristicTypeForIdentifier:HKCharacteristicTypeIdentifierBiologicalSex],nil];
-    NSSet* shareobject = [NSSet setWithObjects:[HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyMass], nil];
+    NSSet* shareobject = [NSSet setWithObjects:[HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierBodyMass],[HKObjectType workoutType],[HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate], nil];
     
     [healstore requestAuthorizationToShareTypes:shareobject readTypes:readobject completion:^(BOOL success, NSError *error) {
         
@@ -62,6 +62,22 @@
             // Update the weight in the health store
             [healstore saveObject:weightSample withCompletion:^(BOOL success, NSError *error) {
                 // ..
+            }];
+            
+            HKQuantityType *HKheartrate = [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate];
+            HKQuantity *hkquant = [HKQuantity quantityWithUnit:[HKUnit unitFromString:@"bpm"] doubleValue:200.f];
+            
+            HKQuantitySample* bpmsample = [HKQuantitySample quantitySampleWithType:HKheartrate
+                                                                          quantity:hkquant
+                                                                         startDate:now
+                                                                           endDate:now];
+            [healstore saveObject:bpmsample withCompletion:^(BOOL sucess, NSError* error){
+                if (success){
+                    NSLog(@"Added");
+                }
+                else{
+                    NSLog(@"%@",error);
+                }
             }];
         }
         else
